@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Subject(){
+            this.observers = [];
+        }
+
+        Subject.prototype.addObserver = function(observer){
+            this.observers.push(observer)
+        }
+        
+
+        Subject.prototype.notify= function(what){
+            this.observers.forEach(observer => {
+                observer.update(what)
+            });
+        }
+
+        function Observer(){
+
+        }
+        // Observer.prototype.update = function(what){
+        //     console.log(`I want to ${what}`);
+            
+        // }
+
+        let subject = new Subject()
+        let nora = new Observer()
+
+        nora.update = function(what) {
+            console.log(`nora want to  ${what}` );
+            
+        }
+
+        let jk = new Observer()
+        jk.update = function(what){
+            console.log(`jk wants to ${what}`);
+            
+        }
+        subject.addObserver(nora)
+        subject.addObserver(jk)
+        subject.notify("nail a interview")
+
+        //观察者可定义自己的observer方法
+
+
+        var pubSub = {
+
+            //topics对象下有很多topic对象, 因为订阅一个topic的人有很多, 所以topic是一个数组
+            //每个topic对象下都存储着所有订阅这个topic的人的信息:name和收到订阅事件的提醒后的反应函数fn
+            //如下面这样:
+            // topics : {
+            //     topic: [{name : "nora", fn: fn}, {name: "jk", fn: fn1}]
+            // },
+            topics: {},
+            subscribe: function(topic, fn){
+                //console.log(this)   // pubSub.subscribe() this指向调用者pubSub
+                if(!this.topics[topic]) {
+                    this.topics[topic]=[]
+                }
+                this.topics[topic].push({
+                    name: Math.random(),
+                    fn: fn
+                })
+            },
+            publish: function(topic, args){
+                this.topics[topic].forEach(subscriber=>{
+                    subscriber.fn(args)
+                })
+            }
+        }
+
+        //nora想要在10点提醒自己去面试
+        pubSub.subscribe("10 am", function(args){
+            console.log(`nora wants to nail a interview ${args}`);   
+        })
+
+        //jk想要提醒自己去练习
+        pubSub.subscribe("10 am", function(args){
+            console.log(`jk wants to practice ${args}`);
+            
+        })
+
+        pubSub.publish("10 am", "with each other")
+
+        
+            
+        
+    </script>
+</body>
+</html>    
