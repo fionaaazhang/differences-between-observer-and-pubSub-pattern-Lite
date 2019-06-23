@@ -23,32 +23,31 @@
             });
         }
 
-        function Observer(){
-
-        }
+        function Observer(){}
         // Observer.prototype.update = function(what){
         //     console.log(`I want to ${what}`);
             
         // }
+        //每个观察者都可以定义属于自己的update方法
 
         let subject = new Subject()
         let nora = new Observer()
 
         nora.update = function(what) {
-            console.log(`nora want to  ${what}` );
+            console.log(`nora want to nail a interview ${what}` );
             
         }
 
         let jk = new Observer()
         jk.update = function(what){
-            console.log(`jk wants to ${what}`);
+            console.log(`jk wants to practice ${what}`);
             
         }
         subject.addObserver(nora)
         subject.addObserver(jk)
-        subject.notify("nail a interview")
+        subject.notify("with each other")
 
-        //观察者可定义自己的observer方法
+
 
 
         var pubSub = {
